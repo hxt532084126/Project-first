@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping>
+	<class name="cn.han.domain.Customer" table="customer">
+		<id name="cid" column="cid">
+			<generator class="native"/>
+		</id>
+		
+		<property name="cname" column="cname"  />
+		<set name="orders" cascade="save-update,delete">
+			<key column="cno"></key>
+			<one-to-many class="cn.han.domain.Order" />
+		</set>
+	</class>
+</hibernate-mapping>
