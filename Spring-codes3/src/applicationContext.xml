@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 定义目标对象 -->
+    <bean id="customerDao" class="cn.han.demo1.CustomerImpl"></bean>
+    
+    <!-- 定义增强 -->
+    <bean id="beforeAdvice" class="cn.han.demo1.MyBeforeAdvice"></bean>
+    
+    <!-- Spring 支持配置生成代理 -->
+    <bean id="customerProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+    	<!-- 设置目标对象 -->
+    	<property name="target" ref="customerDao"/>
+    	<!-- 设置实现的接口,value中写全路径 -->
+    	<property name="proxyInterfaces" value="cn.han.demo1.Customer"></property>
+    	<!-- 需要使用value:要的名称 -->
+    	<property name="interceptorNames" value="beforeAdvice"></property>
+    </bean>
+</beans>

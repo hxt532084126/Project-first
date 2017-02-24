@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- 定义目标对象 -->
+    <bean id="order" class="cn.han.demo2.OrderImpl"></bean>
+    
+    <!-- 定义增强 -->
+    <bean id="aroundAdvice" class="cn.han.demo2.MyAroundAdvice"></bean>
+    
+    
+    <!-- 定义切点切面 -->
+    <bean id="pointAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+    	<!-- 定义表达式,规定哪些方法执行拦截 -->
+		<!-- .为任意字符  *任意个 -->
+		<property name="pattern" value=".*order.*"></property>
+		<property name="advice" ref="aroundAdvice"></property>
+    </bean>
+    
+    <!-- Spring 支持配置生成代理 -->
+    <bean id="orderProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+    	<!-- 设置目标对象 -->
+    	<property name="target" ref="order"/>
+    	<!-- 设置实现的接口,value中写全路径 -->
+    	<property name="proxyTargetClass" value="true"></property>
+    	<!-- 需要使用value:要的名称 -->
+    	<property name="interceptorNames" value="pointAdvisor"></property>
+    </bean>
+</beans>

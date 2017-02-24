@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+    
+	<bean id="personDao" class="cn.han.demo3.Person"></bean>
+	<bean id="beforeAdvice" class="cn.han.demo3.MyInterceptor"></bean>
+
+
+	<!-- 这样设置就可以使所有Dao为后缀的bean一起实现代理了 -->
+    <bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+    	<property name="beanNames" value="*Dao"/>
+    	<property name="interceptorNames" value="beforeAdvice"></property>
+    </bean>
+
+</beans>
