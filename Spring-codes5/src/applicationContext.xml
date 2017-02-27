@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- 指定c3p0连接池配置文件的位置 -->
+	<context:property-placeholder location="classpath:jdbc.properties"/>
+	
+	<!-- 配置c3p0连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}"/>
+		<property name="jdbcUrl" value="${jdbc.url}"/>
+		<property name="user" value="${jdbc.user}"/>
+		<property name="password" value="${jdbc.password}"/>
+	</bean>
+	
+	<!-- 将bean当做所有类的包,全部往里仍,然后拿到索引,建立一个bookAction的引用 -->
+	<bean id="bookAction" class="cn.han.action.BookAction">
+		<!-- 注入属性 -->
+		<property name="bookService" ref="bookService" />
+	</bean>
+	
+	<!-- BookDao BookService的注入 -->
+	<bean id="bookDao" class="cn.han.dao.BookDao"></bean>
+	
+	<bean id="bookService" class="cn.han.service.BookService">
+		<property name="bookDao" ref="bookDao"></property>
+	</bean>
+	
+	
+	
+		
+</beans>
